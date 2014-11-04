@@ -1,0 +1,35 @@
+<launch>
+  <node pkg="ccny_rgbd" type="sparse_tracker_node" name="sparse_tracker" 
+output="screen">
+
+    <param name="use_alpha_beta"  value="false"/>
+    <param name="alpha"           value="1.0"/>
+    <param name="beta"            value="0.8"/>
+
+    <param name="base_frame"  value="base_link"/>
+
+    <param name="history_size"          value="10"/>
+
+    <param name="icp_max_iterations"   value="30"/>
+
+    <param name="n_orb_features"   value="500"/>
+
+    <param name="max_range"             value="7.0"/>
+    
+    <param name="icp_max_corresp_dist" value="0.20"/>
+    
+    <param name="icp_tf_epsilon" value="1e-15"/>
+
+    <param name="use_value_rejection" value="false"/>
+    <param name="max_value_diff" value = "30.0"/>
+    
+    <param name="use_ransac_rejection" value="true"/>
+    <param name="ransac_inlier_threshold" value="0.10"/>
+
+    <param name="orb_smooth" value="0"/>
+    <param name="orb_window" value="0"/>
+
+  </node>
+
+</launch>
+

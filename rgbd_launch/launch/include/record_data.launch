@@ -1,0 +1,31 @@
+<launch>
+
+  <arg name="path" />
+  <arg name="bag_name" />
+
+  <arg name="camera" />
+  <arg name="rgb" />
+  <arg name="depth" />
+  <arg name="depth_registered" />
+<<<<<<< HEAD
+  <arg name="projector" />
+=======
+>>>>>>> d32abce3277f25248f21539b55ec3e8290d983ac
+
+  <node pkg="rosbag" type="record" name="record" output="screen"
+    args="/$(arg camera)/$(arg depth)/camera_info 
+          /$(arg camera)/$(arg depth)/image_raw 
+<<<<<<< HEAD
+          /$(arg camera)/$(arg depth_registered)/camera_info 
+          /$(arg camera)/$(arg depth_registered)/image_raw         
+          /$(arg camera)/$(arg rgb)/camera_info 
+          /$(arg camera)/$(arg rgb)/image_raw
+          -O $(arg path)/$(arg bag_name)"/>
+=======
+          /$(arg camera)/$(arg rgb)/camera_info 
+          /$(arg camera)/$(arg rgb)/image_raw
+          -O $(arg path)/$(arg bag_name)"/>
+
+
+>>>>>>> d32abce3277f25248f21539b55ec3e8290d983ac
+</launch>

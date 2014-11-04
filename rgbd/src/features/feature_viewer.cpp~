@@ -1,0 +1,129 @@
+#include "ccny_rgbd/features/feature_viewer.h"
+
+namespace ccny_rgbd {
+
+FeatureViewer::FeatureViewer(ros::NodeHandle nh, ros::NodeHandle nh_private):
+  nh_(nh), 
+  nh_private_(nh_private)
+{
+  ROS_INFO("Starting Feature Viewer"); 
+
+  // **** dynamic reconfigure
+
+  dynamic_reconfigure::Server<FeatureConfig>::CallbackType f =
+    boost::bind(&FeatureViewer::reconfig_callback, this, _1, _2);
+  srv_.setCallback(f);
+
+  // **** publishers
+
+  ROS_INFO("Publishers"); 
+
+  canny_pub_     = nh_.advertise<sensor_msgs::PointCloud2>(pub_canny_topic_, 1);
+  orb_rgb_pub_   = nh_.advertise<sensor_msgs::PointCloud2>(pub_orb_rgb_topic_, 1);
+  orb_depth_pub_ = nh_.advertise<sensor_msgs::PointCloud2>(pub_orb_depth_topic_, 1);
+
+  surf_rgb_pub_  = nh_.advertise<sensor_msgs::PointCloud2>(pub_surf_rgb_topic_, 1);
+
+  klt_rgb_pub_   = nh_.advertise<sensor_msgs::PointCloud2>(pub_klt_rgb_topic_, 1);
+
+  // **** subscribers
+
+  ROS_INFO("Subscribers"); 
+
+  point_cloud_subscriber_ = nh_.subscribe<sensor_msgs::PointCloud2>(
+    sub_topic_, 1, &FeatureViewer::pointCloudCallback, this);
+}
+
+FeatureViewer::~FeatureViewer()
+{
+  ROS_INFO("Destroying Feature Viewer");
+}
+
+void FeatureViewer::pointCloudCallback(const sensor_msgs::PointCloud2::ConstPtr& cloud_in_msg)
+{
+  PointCloudT::Ptr cloud_in_ptr (new PointCloudT ());
+  pcl::fromROSMsg(*cloud_in_msg, *cloud_in_ptr);
+  cloud_in_ptr->header = cloud_in_msg->header;
+
+  // **** create rgbd frame **************************************************
+
+  RGBDFrame frame;
+
+  frame.data = *cloud_in_ptr;
+  frame.computeRGBImage();
+  frame.computeUDepthImage();
+
+  // **** extract features *****************************************************
+
+  if (use_canny_)
+  {
+    double dur = canny_detector_.findFeaturesTimed(frame);
+    printf("Canny [%d]", frame.rgb_features.points.size());
+    if (canny_detector_.getComputeDescriptors()) printf("*");
+    printf(": %.1f ms \t", dur);
+
+    canny_pub_.publish(frame.rgb_features);
+  }
+  if (use_orb_)
+  {
+    double dur = orb_detector_.findFeaturesTimed(frame);
+    printf("ORB [%d]", frame.rgb_features.points.size());
+    if (orb_detector_.getComputeDescriptors()) printf("*");
+    printf(": %.1f ms \t", dur);
+
+    orb_rgb_pub_.publish(frame.rgb_features);
+  }
+  if(use_surf_)
+  {
+    double dur = surf_detector_.findFeaturesTimed(frame);
+    printf("SURF [%d]", frame.rgb_features.points.size());
+    if (surf_detector_.getComputeDescriptors()) printf("*");
+    printf(": %.1f ms \t", dur);
+
+    surf_rgb_pub_.publish(frame.rgb_features);
+  }
+  if(use_klt_)
+  {
+/*
+    printf("00\n");
+    double dur = klt_detector_.findFeaturesTimed(frame);
+    printf("KLT [%d]", frame.rgb_features.points.size());
+    if (klt_detector_.getComputeDescriptors()) printf("*");
+    printf(": %.1f ms \t", dur);
+
+    klt_rgb_pub_.publish(frame.rgb_features);
+*/
+  }
+
+  printf("\n");
+}
+
+void FeatureViewer::reconfig_callback(FeatureConfig &config, uint32_t level)
+{
+  use_canny_ = config.use_canny;
+  use_orb_   = config.use_orb;
+  use_surf_  = config.use_surf;
+  use_klt_   = true;
+
+  canny_detector_.setThreshold1(config.canny_threshold1);
+  canny_detector_.setThreshold2(config.canny_threshold2);
+  canny_detector_.setSmooth(config.smooth);
+  canny_detector_.setWindow(config.window);
+  canny_detector_.setComputeDescriptors(config.descriptors);
+
+  orb_detector_.setNFeatures(config.orb_n_features);
+  orb_detector_.setThreshold(config.orb_threshold);
+  orb_detector_.setSmooth(config.smooth);
+  orb_detector_.setWindow(config.window);
+  orb_detector_.setComputeDescriptors(config.descriptors);
+
+  surf_detector_.setSmooth(config.smooth);
+  surf_detector_.setWindow(config.window);
+  surf_detector_.setComputeDescriptors(config.descriptors);
+
+  klt_detector_.setSmooth(config.smooth);
+  klt_detector_.setWindow(config.window);
+  klt_detector_.setComputeDescriptors(config.descriptors);
+}
+
+} // namespace ccny_rgbd

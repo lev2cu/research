@@ -1,0 +1,8 @@
+<!-- Resizerr nodelet publisher -->
+<library path="lib/libresizer_nodelet">
+  <class name="ccny_rgbd/ResizerNodelet" type="ResizerNodelet" base_class_type="nodelet::Nodelet">
+    <description>
+      Resizer nodelet publisher.
+    </description>
+  </class>
+</library>

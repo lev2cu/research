@@ -1,0 +1,22 @@
+<launch>
+
+  <arg name="path"/>
+  <arg name="bag_name"/>
+  <arg name="delay"/>
+
+  <node pkg="rosbag" type="play" name="play" output="screen"
+    args="$(arg path)/$(arg bag_name) --clock --queue=1000 -d $(arg delay) --rate=1.0">
+      # NOTES:
+      # the openni's camera_nodelet_manager expects the 4 following topics:
+      #         /camera/depth_registered/image_raw
+      #         /camera/depth_registered/camera_info
+      #         /camera/rgb/image_raw
+      #         /camera/rgb/camera_info
+        <!--
+        <remap from="/camera/depth/image_raw"     to="/camera/depth_registered/image_raw"/>
+        <remap from="/camera/rgb/image_color" to="/camera/rgb/image_raw" />
+        <remap from="/camera/rgb/camera_info_BADNAME" to="/camera/rgb/camera_info" />  
+        -->
+  </node>
+
+</launch>

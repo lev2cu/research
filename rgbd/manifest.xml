@@ -1,0 +1,38 @@
+<package>
+  <description brief="ccny_rgbd">
+
+     ccny_rgbd
+
+  </description>
+  <author>Ivan Dryanovski</author>
+  <license>BSD</license>
+  <review status="unreviewed" notes=""/>
+  <url>http://ros.org/wiki/ccny_rgbd</url>
+  <depend package="roscpp"/>
+  <depend package="pcl"/>
+  <depend package="pcl_ros"/>
+  <depend package="std_srvs"/>
+  <depend package="tf"/>
+  <depend package="dynamic_reconfigure"/>
+  <depend package="cv_bridge"/>
+  <depend package="sensor_msgs"/>
+  <depend package="geometry_msgs"/>
+  <depend package="visualization_msgs"/>
+  <depend package="image_transport"/>
+  <depend package="image_geometry"/>
+
+  <depend package="nodelet"/>
+  <depend package="ccny_gicp"/>
+  <depend package="ccny_toro"/>
+
+  <rosdep name="opencv2.3"/>
+
+  <export>
+    <cpp cflags="-I${prefix}/include"/>
+    <nodelet plugin="${prefix}/resizer_nodelet.xml" />
+    <nodelet plugin="${prefix}/voicp_nodelet.xml" />
+  </export>
+
+</package>
+
+

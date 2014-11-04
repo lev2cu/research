@@ -1,0 +1,25 @@
+<launch>
+
+  <arg name="path" />
+  <arg name="bag_name" />
+
+  <arg name="camera" />
+  <arg name="rgb" />
+  <arg name="depth" />
+  <arg name="depth_registered" />
+  <arg name="projector" />
+
+      # the openni's camera_nodelet_manager expects the 4 following topics:
+      #         /camera/depth_registered/image_raw
+      #         /camera/depth_registered/camera_info
+      #         /camera/rgb/image_raw
+      #         /camera/rgb/camera_info
+      
+  <node pkg="rosbag" type="record" name="record" output="screen"
+    args="/$(arg camera)/$(arg depth_registered)/camera_info 
+          /$(arg camera)/$(arg depth_registered)/image_raw         
+          /$(arg camera)/$(arg rgb)/camera_info 
+          /$(arg camera)/$(arg rgb)/image_raw
+          -O $(arg path)/$(arg bag_name)"/>
+          
+</launch>

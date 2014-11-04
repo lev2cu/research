@@ -1,0 +1,56 @@
+<launch>
+
+  <node pkg="ccny_rgbd" type="sparse_tracker_node" name="sparse_tracker" 
+    output="screen">
+
+    <param name="base_frame"        value="camera_link"/>
+    <param name="fixed_frame"       value="odom_sparse"/>
+    <param name="history_size"      value="5"/>
+       
+    <param name="feature/detector_type"     value="1"/>
+    <param name="feature/smooth"            value="0"/>
+    <param name="feature/max_range"         value="7.0"/>
+
+    <param name="reg/type"                    value="0"/>
+    <param name="reg/max_iterations"          value="25"/>
+    <param name="reg/max_corresp_dist"        value="0.15"/>
+    <param name="reg/tf_epsilon"              value="1e-15"/>
+    <param name="reg/use_ransac_rejection"    value="true"/>
+    <param name="reg/ransac_inlier_threshold" value="0.15"/>
+
+    <param name="gicp/max_iteration_inner"   value="20"/>
+
+  </node>
+
+  <node pkg="ccny_rgbd" type="dense_tracker_node" name="dense_tracker" 
+    output="screen">
+
+    <param name="fixed_frame"            value="odom"/>
+    <param name="odom_frame"             value="odom_sparse"/>
+
+    <param name="use_additive_model"     value="true"/>
+
+    <param name="use_vgf_data_filter"    value="true"/>
+    <param name="vgf_data_res"           value="0.08"/>
+    <param name="vgf_data_range"         value="5.0"/>
+
+    <param name="max_distance"           value="0.20"/>
+    <param name="max_iterations"         value="20"/>
+    <param name="max_iterations_inner"   value="20"/>
+    <param name="nn_count"               value="20"/>
+    <param name="epsilon"                value="5e-4"/>
+    <param name="epsilon_rot"            value="2e-3"/>
+
+  </node>
+
+  <node pkg="ccny_3dmap_server" type="map_server_node" name="map_server" 
+    output="screen">
+
+    <param name="fixed_frame"  value="odom"/>
+    <param name="resolution"   value="0.02"/>
+    <param name="max_range"  value="4.0"/>
+
+  </node>
+
+</launch>
+

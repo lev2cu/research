@@ -1,0 +1,13 @@
+<launch>
+
+  <arg name="path"/>
+  <arg name="bag_name"/>
+
+  <node pkg="rosbag" type="play" name="play" output="screen"
+<<<<<<< HEAD
+    args="$(arg path)/$(arg bag_name) --clock --loop --queue=200 -d 5"/>
+=======
+    args="$(arg path)/$(arg bag_name) --clock"/>
+>>>>>>> d32abce3277f25248f21539b55ec3e8290d983ac
+
+</launch>

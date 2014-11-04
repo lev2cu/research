@@ -1,0 +1,16 @@
+/media/psf/Home/ros/ccny_vision_rgbd/rgbd_bagger/build/CMakeFiles/ROSBUILD_genmsg_cpp.dir
+/media/psf/Home/ros/ccny_vision_rgbd/rgbd_bagger/build/CMakeFiles/ROSBUILD_genmsg_lisp.dir
+/media/psf/Home/ros/ccny_vision_rgbd/rgbd_bagger/build/CMakeFiles/ROSBUILD_gensrv_cpp.dir
+/media/psf/Home/ros/ccny_vision_rgbd/rgbd_bagger/build/CMakeFiles/ROSBUILD_gensrv_lisp.dir
+/media/psf/Home/ros/ccny_vision_rgbd/rgbd_bagger/build/CMakeFiles/clean-test-results.dir
+/media/psf/Home/ros/ccny_vision_rgbd/rgbd_bagger/build/CMakeFiles/rebagger_node.dir
+/media/psf/Home/ros/ccny_vision_rgbd/rgbd_bagger/build/CMakeFiles/rosbuild_precompile.dir
+/media/psf/Home/ros/ccny_vision_rgbd/rgbd_bagger/build/CMakeFiles/rosbuild_premsgsrvgen.dir
+/media/psf/Home/ros/ccny_vision_rgbd/rgbd_bagger/build/CMakeFiles/rospack_genmsg.dir
+/media/psf/Home/ros/ccny_vision_rgbd/rgbd_bagger/build/CMakeFiles/rospack_genmsg_libexe.dir
+/media/psf/Home/ros/ccny_vision_rgbd/rgbd_bagger/build/CMakeFiles/rospack_gensrv.dir
+/media/psf/Home/ros/ccny_vision_rgbd/rgbd_bagger/build/CMakeFiles/test.dir
+/media/psf/Home/ros/ccny_vision_rgbd/rgbd_bagger/build/CMakeFiles/test-future.dir
+/media/psf/Home/ros/ccny_vision_rgbd/rgbd_bagger/build/CMakeFiles/test-results.dir
+/media/psf/Home/ros/ccny_vision_rgbd/rgbd_bagger/build/CMakeFiles/test-results-run.dir
+/media/psf/Home/ros/ccny_vision_rgbd/rgbd_bagger/build/CMakeFiles/tests.dir

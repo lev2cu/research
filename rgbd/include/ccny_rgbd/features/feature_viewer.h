@@ -1,0 +1,85 @@
+#ifndef CCNY_RGBD_FEATURE_VIEWER_H
+#define CCNY_RGBD_FEATURE_VIEWER_H
+
+#include <ros/ros.h>
+
+#include <dynamic_reconfigure/server.h>
+#include <sensor_msgs/PointCloud2.h>
+
+#include <pcl/filters/voxel_grid.h>
+#include <pcl/filters/statistical_outlier_removal.h>
+#include <pcl_ros/point_cloud.h>
+
+#include <pcl/io/io.h>
+
+#include "ccny_rgbd/FeatureConfig.h"
+#include "ccny_rgbd/features/feature_detector.h"
+#include "ccny_rgbd/features/orb_detector.h"
+#include "ccny_rgbd/features/canny_detector.h"
+#include "ccny_rgbd/features/surf_detector.h"
+#include "ccny_rgbd/features/klt_detector.h"
+
+namespace ccny_rgbd
+{
+
+const std::string sub_topic_                   = "/camera/depth_registered/points";
+const std::string pub_canny_topic_             = "/features/canny";
+const std::string pub_orb_rgb_topic_           = "/features/orb_rgb";
+const std::string pub_orb_depth_topic_         = "/features/orb_depth";
+const std::string pub_surf_rgb_topic_          = "/features/surf_rgb";
+const std::string pub_surf_depth_topic_        = "/features/surf_depth";
+const std::string pub_klt_rgb_topic_           = "/features/klt_rgb";
+
+const std::string pub_filtered_features_topic_ = "/features/filtered";
+
+class FeatureViewer
+{
+  public:
+
+    FeatureViewer(ros::NodeHandle nh, ros::NodeHandle nh_private);
+    virtual ~FeatureViewer();
+
+    void reconfig_callback(FeatureConfig &config, uint32_t level);
+    void pointCloudCallback(const sensor_msgs::PointCloud2::ConstPtr& cloud_in_ptr);
+
+  private:
+    
+    // **** ROS-related
+
+    ros::NodeHandle nh_;
+    ros::NodeHandle nh_private_;
+
+    ros::Publisher canny_pub_;
+
+    ros::Publisher orb_rgb_pub_;
+    ros::Publisher orb_depth_pub_;
+
+    ros::Publisher surf_rgb_pub_;
+    ros::Publisher surf_depth_pub_;
+
+    ros::Publisher klt_rgb_pub_;
+
+    ros::Subscriber point_cloud_subscriber_;
+
+    dynamic_reconfigure::Server<FeatureConfig> srv_;
+
+    // **** parameters 
+
+    bool use_canny_;
+    bool use_orb_;
+    bool use_surf_;
+    bool use_klt_;
+
+    // **** variables
+
+    OrbDetector   orb_detector_;
+    CannyDetector canny_detector_;
+    SurfDetector  surf_detector_;
+   // KltDetector   klt_detector_;
+
+    struct timeval start_, end_;    // used for timing
+};
+
+} //namespace ccny_rgbd
+
+#endif // CCNY_RGBD_FEATURE_VIEWER_H
